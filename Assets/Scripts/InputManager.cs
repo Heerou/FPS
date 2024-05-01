@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     private Player playerInput;
-    private Player.OnFootActions onFootActions;
+    public Player.OnFootActions OnFoot;
 
     [SerializeField]
     private PlayerMovement playerMovement;
@@ -15,28 +15,28 @@ public class InputManager : MonoBehaviour
     void Awake()
     {
         playerInput = new Player();
-        onFootActions = playerInput.OnFoot;
-        onFootActions.Jump.performed += ctx => playerMovement.Jump();
+        OnFoot = playerInput.OnFoot;
+        OnFoot.Jump.performed += ctx => playerMovement.Jump();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        playerMovement.ProcessMove(onFootActions.Movement.ReadValue<Vector2>());
+        playerMovement.ProcessMove(OnFoot.Movement.ReadValue<Vector2>());
     }
 
     private void LateUpdate()
     {
-        playerLook.ProcessLook(onFootActions.Look.ReadValue<Vector2>());
+        playerLook.ProcessLook(OnFoot.Look.ReadValue<Vector2>());
 
     }
 
     private void OnEnable()
     {
-        onFootActions.Enable();
+        OnFoot.Enable();
     }
     private void OnDisable()
     {
-        onFootActions.Disable();
+        OnFoot.Disable();
     }
 }
